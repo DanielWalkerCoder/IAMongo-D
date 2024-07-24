@@ -12,6 +12,50 @@ async function getAllUsers(){
     }
 }
 
+async function createUser(body){
+    const{
+        firstName,
+        lastName,
+        email,
+        password,
+        username
+    } = body
+    const newUser = new User({
+        firstName,
+        lastName,
+        email,
+        username,
+        password
+    })
+    try {
+        const savedUser = await newUser.save()
+        return savedUser
+    } catch (error) {
+        return error
+    }
+}
+
+async function updateUserByID(id, body){
+    try {
+        const foundUser = await User.findByIdAndUpdate(id, body, {new: true})
+        return foundUser
+    } catch (error) {
+        return error
+    }
+}
+
+async function deleteUserByID(id){
+    try {
+        const deletedUser = await User.findByIdAndDelete(id)
+        return deletedUser
+    } catch (error) {
+        return error
+    }
+}
+
 module.exports = {
-    getAllUsers
+    getAllUsers,
+    createUser,
+    updateUserByID,
+    deleteUserByID
 }
